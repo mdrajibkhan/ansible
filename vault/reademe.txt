@@ -1,0 +1,2 @@
+# ansible-vault -h   # to create the necessry things to encrypt
+# mysql -h localhost -P 3306 -u root -p
