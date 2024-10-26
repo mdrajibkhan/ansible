@@ -1,0 +1,63 @@
+---
+- name: Include vault variables
+  include_vars:
+    file: vault.yml
+
+- name: Install Apache and required packages
+  ansible.builtin.yum:
+    name:
+      - httpd
+      - mod_ssl
+      - firewalld
+    state: present
+
+- name: Start and enable firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Configure firewall for HTTP
+  ansible.builtin.firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  notify: reload firewall
+
+- name: Configure firewall for HTTPS
+  ansible.builtin.firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  notify: reload firewall
+
+- name: Create document root directory
+  ansible.builtin.file:
+    path: "{{ document_root }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0755'
+
+- name: Create Apache configuration
+  ansible.builtin.template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf.d/custom.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart apache
+
+- name: Create index page
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "{{ document_root }}/index.html"
+    owner: apache
+    group: apache
+    mode: '0644'
+
+- name: Start and enable Apache
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: yes

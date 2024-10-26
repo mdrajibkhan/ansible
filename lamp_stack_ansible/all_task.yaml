@@ -1,5 +1,5 @@
 - name: Install Epel Repository
-  hosts: app
+  hosts: web
   tasks:
     - name: Install Extra Repository
       yum:
