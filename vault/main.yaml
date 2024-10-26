@@ -1,7 +1,0 @@
-# install_mysql.yml
----
-- name: Set up MySQL Server
-  hosts: db
-  become: yes
-  roles:
-    - webserver

@@ -1,3 +1,0 @@
-# db-mysql/defaults/main.yml
----
-mysql_package: "mysql-server"

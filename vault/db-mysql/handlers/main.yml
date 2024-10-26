@@ -1,7 +1,0 @@
-# db-mysql/handlers/main.yml
----
-- name: Restart MySQL
-  ansible.builtin.service:
-    name: mysqld
-    state: restarted
-  become: yes

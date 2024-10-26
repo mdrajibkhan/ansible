@@ -1,0 +1,41 @@
+---
+- name: Ensure Python 3 is installed
+  package:
+    name: python3
+    state: present
+  become: yes
+
+- name: Ensure pip is installed
+  package:
+    name: python3-pip
+    state: present
+  become: yes
+
+- name: Install PyMySQL
+  pip:
+    name: PyMySQL
+    state: present
+  become: yes
+
+- name: Ensure MySQL server is installed
+  package:
+    name: mysql-server
+    state: present
+  become: yes
+
+- name: Start and enable MySQL service
+  systemd:
+    name: mysqld
+    state: started
+    enabled: true
+  become: yes
+
+- name: Set root password for all host variants
+  mysql_user:
+    name: root
+    host_all: true
+    password: "{{ db_password }}"
+    login_password: "{{ initial_root_password }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    check_implicit_admin: yes
+  become: yes

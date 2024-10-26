@@ -1,6 +1,0 @@
----
-- name: Install and Configure Web Server
-  hosts: web
-  become: yes
-  roles:
-    - webserver
