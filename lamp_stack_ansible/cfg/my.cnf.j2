@@ -1,0 +1,45 @@
+# Basic Settings
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+pid-file=/var/run/mariadb/mariadb.pid
+
+# Binding and Ports
+bind-address = 0.0.0.0
+port = 3306
+
+# Security Settings
+symbolic-links=0
+
+# Character Set
+character-set-server = utf8mb4
+collation-server = utf8mb4_general_ci
+
+# InnoDB Settings
+innodb_buffer_pool_size = {{ ansible_memtotal_mb // 4 }}M
+innodb_log_file_size = 64M
+innodb_file_per_table = 1
+innodb_flush_method = O_DIRECT
+
+# Connection Settings
+max_connections = 150
+max_allowed_packet = 16M
+
+# Query Cache
+query_cache_size = 32M
+query_cache_type = 1
+
+# Logging
+log_error = /var/log/mariadb/mariadb.log
+slow_query_log = 1
+slow_query_log_file = /var/log/mariadb/mariadb-slow.log
+long_query_time = 2
+
+[client]
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
